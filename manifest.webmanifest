@@ -1,0 +1,23 @@
+{
+  "name": "Row Counter",
+  "short_name": "Row Counter",
+  "description": "Track multiple knitting and crocheting projects with separate row counters.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff4e7",
+  "theme_color": "#35201a",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

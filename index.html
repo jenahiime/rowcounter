@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Row Counter</title>
+  <meta name="theme-color" content="#35201a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Row Counter">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="workspace" aria-label="Row counter projects">
+      <div class="workspace-header">
+        <div>
+          <p class="workspace-eyebrow" data-i18n="workspaceEyebrow">Knitting + Crochet</p>
+          <h1 data-i18n="workspaceTitle">Project Counters</h1>
+        </div>
+        <div class="workspace-actions">
+          <div class="language-toggle" role="group" aria-label="Language toggle">
+            <button class="language-button language-button--active" id="language-english" type="button">EN</button>
+            <button class="language-button" id="language-korean" type="button">KO</button>
+          </div>
+          <button class="add-button" id="add-project-button" type="button" data-i18n="addProject">Add Project</button>
+        </div>
+      </div>
+      <div class="widget-list" id="widget-list"></div>
+    </section>
+  </main>
+  <template id="widget-template">
+    <section class="counter-card" aria-label="Knitting and crochet row counter">
+      <div class="card-top">
+        <p class="eyebrow" data-role="craft-label">Knitting</p>
+        <div class="project-icon">
+          <label class="project-icon-label" aria-label="Upload project icon" data-i18n-aria-label="uploadProjectIcon">
+            <input class="project-icon-input" data-role="project-icon-input" type="file" accept="image/*">
+            <img class="project-icon-image project-icon-image--hidden" data-role="project-icon-image" alt="Project icon preview">
+            <span class="project-icon-placeholder" data-role="project-icon-placeholder" data-i18n="addIcon">Add Icon</span>
+          </label>
+        </div>
+      </div>
+      <form class="project-form" autocomplete="off">
+        <label class="field">
+          <span class="field-label" data-i18n="projectName">Project Name</span>
+          <input
+            class="text-input"
+            data-role="project-name"
+            name="projectName"
+            type="text"
+            placeholder="My Cozy Scarf"
+            data-i18n-placeholder="projectNamePlaceholder"
+          >
+        </label>
+        <fieldset class="field craft-field">
+          <legend class="field-label" data-i18n="craftType">Craft Type</legend>
+          <div class="toggle-group" role="radiogroup" aria-label="Choose craft type">
+            <label class="toggle-option">
+              <input type="radio" data-role="craft-type" name="craftType" value="Knitting" checked>
+              <span data-role="craft-option-knitting" data-i18n="knitting">Knitting</span>
+            </label>
+            <label class="toggle-option">
+              <input type="radio" data-role="craft-type" name="craftType" value="Crocheting">
+              <span data-role="craft-option-crocheting" data-i18n="crocheting">Crocheting</span>
+            </label>
+          </div>
+        </fieldset>
+      </form>
+      <h2 class="card-title" data-i18n="rowCounter">Row Counter</h2>
+      <div class="total" aria-live="polite" aria-atomic="true">
+        <span class="total-label" data-i18n="totalRows">Total Rows</span>
+        <div class="total-value-group">
+          <span class="total-value" data-role="row-total">0</span>
+          <span class="row-alert row-alert--hidden" data-role="row-alert" data-i18n="rowAlert">Increase/Decrease Row!</span>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="counter-button counter-button--decrease" data-role="decrease-button" type="button" aria-label="Decrease row total by 1">-1</button>
+        <button class="counter-button counter-button--increase" data-role="increase-button" type="button" aria-label="Increase row total by 1">+1</button>
+      </div>
+      <div class="optional-counter-toggle">
+        <button class="secondary-button" data-role="toggle-secondary-counter" type="button" data-i18n="addIncreaseDecreaseCounter">Add Increase/Decrease Counter</button>
+      </div>
+      <section class="secondary-counter secondary-counter--hidden" data-role="secondary-counter" aria-live="polite" aria-atomic="true">
+        <div class="secondary-counter-header">
+          <span class="total-label" data-i18n="increaseDecreaseCount">Increase/Decrease Count</span>
+          <button class="text-button" data-role="remove-secondary-counter" type="button" data-i18n="remove">Remove</button>
+        </div>
+        <div class="pattern-settings">
+          <label class="field">
+            <span class="field-label" data-i18n="rowsBetween">Rows Between Increases/Decreases</span>
+            <input
+              class="text-input"
+              data-role="pattern-interval"
+              type="number"
+              min="1"
+              inputmode="numeric"
+              placeholder="6"
+            >
+          </label>
+          <label class="field">
+            <span class="field-label" data-i18n="patternStartsOnRow">Pattern Starts On Row</span>
+            <input
+              class="text-input"
+              data-role="pattern-start-row"
+              type="number"
+              min="0"
+              inputmode="numeric"
+              placeholder="4"
+            >
+          </label>
+        </div>
+        <div class="secondary-total-block">
+          <div class="secondary-total-heading">
+            <span class="total-label" data-i18n="totalIncreasesDecreases">Total Increases/Decreases</span>
+            <span class="secondary-total-note secondary-total-note--hidden" data-role="secondary-total-note" data-i18n="automaticTotalNote">This total updates automatically from the row counter and your pattern settings.</span>
+          </div>
+          <span class="secondary-total-value" data-role="secondary-total">0</span>
+        </div>
+        <div class="next-pattern">
+          <span class="total-label" data-i18n="rowsUntilNext">Rows Until Next Increase/Decrease</span>
+          <span class="next-pattern-value" data-role="rows-until-next">Set pattern details</span>
+        </div>
+        <div class="controls controls--compact">
+          <button class="counter-button counter-button--decrease" data-role="secondary-decrease-button" type="button" aria-label="Decrease increase and decrease total by 1">-1</button>
+          <button class="counter-button counter-button--increase" data-role="secondary-increase-button" type="button" aria-label="Increase increase and decrease total by 1">+1</button>
+        </div>
+        <div class="secondary-counter-actions">
+          <button class="secondary-button" data-role="secondary-reset-button" type="button" data-i18n="resetIncreaseDecreaseCounter">Reset Increase/Decrease Counter</button>
+        </div>
+      </section>
+      <div class="project-actions">
+        <button class="secondary-button" data-role="reset-button" type="button" data-i18n="resetRowCounter">Reset Row Counter</button>
+        <button class="secondary-button secondary-button--danger" data-role="delete-button" type="button" data-i18n="deleteProject">Delete Project</button>
+      </div>
+    </section>
+  </template>
+  <script src="./script.js"></script>
+</body>
+</html>
